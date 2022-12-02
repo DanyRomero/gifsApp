@@ -16,6 +16,7 @@ export class GifsService {
 
   constructor(private http: HttpClient) {
     this._historial = JSON.parse(localStorage.getItem('historial')!) || [];
+    this.resulados = JSON.parse(localStorage.getItem("ultimoResultado")!) || [];
   }
 
   buscarGifs(query: string) {
@@ -24,6 +25,7 @@ export class GifsService {
       this._historial.unshift(query);
       this._historial = this._historial.splice(0, 10);
       localStorage.setItem('historial', JSON.stringify(this._historial));
+      
     }
 
     this.http
@@ -32,6 +34,7 @@ export class GifsService {
       )
       .subscribe((resp) => {
         this.resulados = resp.data;
+        localStorage.setItem("ultimoResultado", JSON.stringify(this.resulados))
       });
   }
 }
